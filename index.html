@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eGM - Giải pháp Phiếu Gây Mê Điện Tử Chuyên Nghiệp</title>
+    <title>eGM - Phiếu Gây Mê Điện Tử</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -35,6 +35,39 @@
         .hero-gradient {
             background: linear-gradient(135deg, #006B59 0%, #004d40 100%);
         }
+        .tag-cloud-section {
+            padding: 28px 24px 8px;
+            text-align: center;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+        }
+        .tag-cloud-section h2 {
+            margin: 0 0 12px;
+            font-size: 30px;
+            line-height: 1.15;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        .tag-cloud-section p {
+            margin: 0 auto 20px;
+            max-width: 760px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #64748b;
+        }
+        .canvas-wrap {
+            width: min(100%, 1120px);
+            height: 300px;
+            margin: 0 auto;
+            position: relative;
+            user-select: none;
+        }
+        #tagCloud {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
         .card-shadow {
             box-shadow: 0 10px 25px -5px rgba(0, 107, 89, 0.1);
         }
@@ -53,6 +86,21 @@
         /* Smooth scrolling for IDs */
         html {
             scroll-behavior: smooth;
+        }
+        @media (max-width: 768px) {
+            .tag-cloud-section {
+                padding: 20px 14px 6px;
+            }
+            .tag-cloud-section h2 {
+                font-size: 24px;
+            }
+            .tag-cloud-section p {
+                font-size: 15px;
+                padding: 0 12px;
+            }
+            .canvas-wrap {
+                height: 250px;
+            }
         }
     </style>
 </head>
@@ -77,9 +125,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-6">
-                    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
-                        <p>eGM<br>Số hóa quy trình <br> Gây mê hồi sức</p>
-                    </h1>
+                    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">eGM<br>Số hóa quy trình<br>Gây mê hồi sức</h1>
                     <p class="text-lg text-emerald-50/90 leading-relaxed">
                         Chuẩn hóa hồ sơ theo Thông tư 32/2023/TT-BYT. Tự động hóa <br> lấy dữ liệu, giảm tải hành chính, tăng an toàn cho bệnh nhân.
                     </p>
@@ -96,7 +142,7 @@
     </section>
 
     <!-- Testimonials -->
-    <section class="py-24 bg-white">
+    <section class="pt-24 pb-12 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-bold text-center mb-16">Sự tin tưởng từ các chuyên gia đầu ngành</h2>
             <div class="grid md:grid-cols-2 gap-12">
@@ -113,7 +159,7 @@
                         </iframe>
                     </div>
                     <div class="mt-6 text-center md:text-left">
-                        <h4 class="font-bold text-xl">BS Huỳnh Nam Hải</h4>
+                        <h4 class="font-bold text-xl">BS. Huỳnh Nam Hải</h4>
                         <p class="text-primary font-medium">Trưởng Khoa Phẫu thuật - GMHS</p>
                         <p class="text-sm text-gray-500 italic">Bệnh viện Đa khoa Kiên Giang</p>
                     </div>
@@ -131,21 +177,190 @@
                         </iframe>
                     </div>
                     <div class="mt-6 text-center md:text-left">
-                        <h4 class="font-bold text-xl">BS. CKII Lưu Kính Khương</h4>
+                        <h4 class="font-bold text-xl">BS.CKII Lưu Kính Khương</h4>
                         <p class="text-primary font-medium">Trưởng khoa Gây mê hồi sức</p>
                         <p class="text-sm text-gray-500 italic">Bệnh viện Đa khoa Tâm Anh TP.HCM</p>
                     </div>
                 </div>
             </div>
             <!-- Serial Images -->
-            <div class="mt-20 image-placeholder min-h-[180px] bg-slate-50 border-gray-200 overflow-hidden p-0 border-0">
-                <img src="assets/images/deployment-gallery.jpg" alt="deployment gallery" class="w-full h-full object-cover">
+            <div class="mt-12">
+                <div class="tag-cloud-section">
+                    <h2>Các bệnh viện đã sử dụng eGM</h2>
+                    <p>Đồng hành cùng nhiều đơn vị gây mê hồi sức và phòng mổ trên toàn quốc.</p>
+                    <div class="canvas-wrap">
+                        <canvas id="tagCloud"></canvas>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+
+            <script>
+                const tags = [
+                    "TW Quân Đội 108",
+                    "Phổi Trung Ương",
+                    "Viện Tim Hà Nội",
+                    "Tâm Anh Hà Nội",
+                    "Việt Đức",
+                    "VINMEC",
+                    "Bình Dân",
+                    "Nhi Đồng 2",
+                    "ĐK Khu vực Thủ Đức",
+                    "Đồng Nai 2",
+                    "Trưng Vương",
+                    "Đà Nẵng",
+                    "Từ Dũ",
+                    "SN Quảng Ngãi",
+                    "Hùng Vương",
+                    "Sản Nhi Kiên Giang",
+                    "Đại học Y Huế",
+                    "Nhân Dân 115",
+                    "Phenikaa"
+                ];
+
+                const canvas = document.getElementById("tagCloud");
+                const ctx = canvas ? canvas.getContext("2d") : null;
+
+                if (!canvas || !ctx) {
+                    console.warn("Tag cloud canvas not found.");
+                }
+
+                let width = 0;
+                let height = 0;
+                let centerX = 0;
+                let centerY = 0;
+                let radius = 0;
+
+                const items = [];
+
+                // chỉ quay ngang
+                const rotationYSpeed = 0.0009;
+
+                function resizeCanvas() {
+                    if (!canvas || !ctx) return;
+                    const dpr = window.devicePixelRatio || 1;
+                    const rect = canvas.getBoundingClientRect();
+
+                    canvas.width = rect.width * dpr;
+                    canvas.height = rect.height * dpr;
+                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                    width = rect.width;
+                    height = rect.height;
+                    centerX = width / 2;
+                    centerY = height / 2;
+
+                    radius = Math.min(width, height) * 0.38;
+
+                    createSphere();
+                }
+
+                function createSphere() {
+                    items.length = 0;
+                    const count = tags.length;
+
+                    for (let i = 0; i < count; i++) {
+                        // Fibonacci sphere: phân bố đều trên mặt cầu
+                        const phi = Math.acos(1 - 2 * ((i + 0.5) / count));
+                        const theta = Math.PI * (1 + Math.sqrt(5)) * (i + 0.5);
+
+                        const x = radius * Math.cos(theta) * Math.sin(phi);
+                        const y = radius * Math.sin(theta) * Math.sin(phi);
+                        const z = radius * Math.cos(phi);
+
+                        items.push({ text: tags[i], x, y, z });
+                    }
+                }
+
+                function rotateY(item, angle) {
+                    const cos = Math.cos(angle);
+                    const sin = Math.sin(angle);
+                    const x = item.x * cos - item.z * sin;
+                    const z = item.z * cos + item.x * sin;
+                    item.x = x;
+                    item.z = z;
+                }
+
+                function draw() {
+                    if (!ctx) return;
+                    ctx.clearRect(0, 0, width, height);
+
+                    for (const item of items) {
+                        rotateY(item, rotationYSpeed);
+                    }
+
+                    const fov = 820;
+
+                    const sorted = items
+                        .map(item => {
+                            const scale = fov / (fov + item.z + radius * 1.2);
+                            const x2d = item.x * scale + centerX;
+                            const y2d = item.y * scale + centerY;
+
+                            const depthRatio = (item.z + radius) / (radius * 2);
+                            const alpha = Math.max(0.34, Math.min(1, 0.28 + depthRatio * 0.9));
+                            const fontSize = Math.max(12, 8.5 * scale + 8.5);
+
+                            return { ...item, x2d, y2d, alpha, fontSize, scale };
+                        })
+                        .sort((a, b) => a.z - b.z);
+
+                    const placed = [];
+
+                    for (const item of sorted) {
+                        ctx.save();
+                        ctx.font = `600 ${item.fontSize}px Inter, Arial, sans-serif`;
+                        const textWidth = ctx.measureText(item.text).width;
+
+                        let drawX = item.x2d;
+                        let drawY = item.y2d;
+
+                        // giảm chồng chữ bằng cách đẩy nhẹ theo trục Y
+                        for (const p of placed) {
+                            const minDx = (textWidth + p.w) * 0.5 + 18;
+                            const minDy = Math.max(item.fontSize, p.h) * 0.8 + 8;
+
+                            const dx = drawX - p.x;
+                            const dy = drawY - p.y;
+
+                            if (Math.abs(dx) < minDx && Math.abs(dy) < minDy) {
+                                drawY += dy >= 0 ? 10 : -10;
+                            }
+                        }
+
+                        placed.push({
+                            x: drawX,
+                            y: drawY,
+                            w: textWidth,
+                            h: item.fontSize
+                        });
+
+                        ctx.globalAlpha = item.alpha;
+                        ctx.font = `600 ${item.fontSize}px Inter, Arial, sans-serif`;
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "middle";
+                        ctx.shadowColor = "rgba(0, 107, 89, 0.10)";
+                        ctx.shadowBlur = 6;
+                        ctx.fillStyle = `rgba(0, 107, 89, ${item.alpha})`;
+                        ctx.fillText(item.text, drawX, drawY);
+                        ctx.restore();
+                    }
+                }
+
+                function animate() {
+                    if (!ctx) return;
+                    draw();
+                    requestAnimationFrame(animate);
+                }
+                if (canvas && ctx) {
+                    window.addEventListener("resize", resizeCanvas);
+                    resizeCanvas();
+                    animate();
+                }
+            </script>
+        </section>       
 
     <!-- Pain Points Section -->
-    <section id="problems" class="py-24 bg-white">
+    <section id="problems" class="pt-16 pb-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <h2 class="text-primary font-bold tracking-widest uppercase text-xs mb-3">Vấn đề & Thách thức</h2>
@@ -261,7 +476,7 @@
                             <th class="px-8 py-5 text-center font-bold">Vietmedical<br>eGM</th>
                             <th class="px-8 py-5 text-center font-bold">GE<br>Carestation Insights</th>
                             <th class="px-8 py-5 text-center font-bold">Getinge<br>Talis Hub</th>
-                            <th class="px-8 py-5 text-center font-bold">Draeger<br>Innvovian</th>
+                            <th class="px-8 py-5 text-center font-bold">Draeger<br>Innovian</th>
                             <th class="px-8 py-5 text-center font-bold">Mindray<br>AnaeSight</th>
                         </tr>
                     </thead>
